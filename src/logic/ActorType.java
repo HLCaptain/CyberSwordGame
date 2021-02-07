@@ -1,5 +1,10 @@
 package logic;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * All actor types are listed here, with the path to their representing image.
  */
@@ -18,11 +23,22 @@ public enum ActorType {
 	private final String imgPath;
 
 	/**
+	 * The path to the image which represents an actor.
+	 * Used for rendering an actor in a gui element.
+	 */
+	private BufferedImage img;
+
+	/**
 	 * Setting the path to the actor representing image.
 	 * @param pathname the path to the actor representing image.
 	 */
 	ActorType(String pathname) {
 		imgPath = pathname;
+		try {
+			img = ImageIO.read(new File(pathname));
+		} catch(IOException e) {
+			System.out.println("File in " + pathname + " cannot be loaded.");
+		}
 	}
 
 	/**
@@ -30,5 +46,12 @@ public enum ActorType {
 	 */
 	public String getImgPath() {
 		return imgPath;
+	}
+
+	/**
+	 * @return buffered image of the actor.
+	 */
+	public BufferedImage getImg() {
+		return img;
 	}
 }

@@ -2,6 +2,8 @@ package logic;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 import static logic.Constants.*;
@@ -122,5 +124,12 @@ public class Player extends Entity {
 			takeDmg(enemy.getDamage());
 			invincible = true;
 		}
+	}
+
+	/**
+	 * @return the actual image of the player.
+	 */
+	public BufferedImage getImg() {
+		return ActorType.PLAYER.getImg();
 	}
 }

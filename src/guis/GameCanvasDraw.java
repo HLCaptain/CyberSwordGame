@@ -36,21 +36,18 @@ public class GameCanvasDraw extends Draw implements Updatable {
 
 	@Override
 	protected void makeDraw(Graphics g) {
-		try {
-			emptyTile = ImageIO.read(new File(TileType.EMPTY.getImgPath()));
-			groundTile = ImageIO.read(new File(TileType.GROUND.getImgPath()));
-			playerSpawn = ImageIO.read(new File(ActorType.PLAYERSPAWN.getImgPath()));
-			chalice = ImageIO.read(new File(ActorType.CHALICE.getImgPath()));
-			enemy = ImageIO.read(new File(ActorType.ENEMY.getImgPath()));
-			enemySpawner = ImageIO.read(new File(ActorType.ENEMYSPAWNER.getImgPath()));
-			pistolBullet = ImageIO.read(new File(ActorType.PISTOLBULLET.getImgPath()));
-			if (gc.player == null)
-				player = ImageIO.read(new File(ActorType.PLAYER.getImgPath()));
-			else
-				player = ImageIO.read(new File(gc.player.getImgPath()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		emptyTile = TileType.EMPTY.getImg();
+		groundTile = TileType.GROUND.getImg();
+		playerSpawn = ActorType.PLAYERSPAWN.getImg();
+		chalice = ActorType.CHALICE.getImg();
+		enemy = ActorType.ENEMY.getImg();
+		enemySpawner = ActorType.ENEMYSPAWNER.getImg();
+		pistolBullet = ActorType.PISTOLBULLET.getImg();
+		if (gc.player == null)
+			player = ActorType.PLAYER.getImg();
+		else
+			player = gc.player.getImg();
+
 		if (gc.getCamera().getTarget() == null)
 			return;
 		drawTiles(g);
@@ -86,7 +83,10 @@ public class GameCanvasDraw extends Draw implements Updatable {
 	private void drawActors(Graphics g) {
 		if (gc.gameMap.getActors() == null)
 			return;
-		for (Actor a : gc.gameMap.getActors()) {
+		int actorSize = gc.gameMap.getActors().size();
+
+		for (int i = 0; i < actorSize; i++) {
+			Actor a = gc.gameMap.getActors().get(i);
 			BufferedImage img = null;
 			if (a.getImgPath().equals(ActorType.PLAYERSPAWN.getImgPath())) {
 				img = playerSpawn;
@@ -116,19 +116,20 @@ public class GameCanvasDraw extends Draw implements Updatable {
 
 			// TODO: delete test
 			// TEST BEGIN
-//			g.setColor(Color.blue);
-//			g.drawRect(
-//					(int) ((a.getCollisionRect().getX() - gc.getCamera().getPosition().getX()) * gc.getCamera().getScale()),
-//					(int) ((a.getCollisionRect().getY() - gc.getCamera().getPosition().getY()) * gc.getCamera().getScale()),
-//					(int) (a.getCollisionRect().getWidth() * gc.getCamera().getScale()),
-//					(int) (a.getCollisionRect().getHeight() * gc.getCamera().getScale())
-//			);
+			g.setColor(Color.blue);
+			g.drawRect(
+					(int) ((a.getCollisionRect().getX() - gc.getCamera().getPosition().getX()) * gc.getCamera().getScale()),
+					(int) ((a.getCollisionRect().getY() - gc.getCamera().getPosition().getY()) * gc.getCamera().getScale()),
+					(int) (a.getCollisionRect().getWidth() * gc.getCamera().getScale()),
+					(int) (a.getCollisionRect().getHeight() * gc.getCamera().getScale())
+			);
 			// TEST END
 
 
 		}
 		g.setColor(Color.black);
 		g.drawString(gc.gameClock.getFPS() + " FPS", 25, 25);
+		g.drawString(dtime + " ms", 25, 35);
 	}
 
 	private void drawLifeBar(Graphics g, Player player) {

@@ -52,4 +52,11 @@ public enum TileType implements Serializable {
 	public String getImgPath() {
 		return this.imgPath;
 	}
+
+	/**
+	 * @return buffered image of the tile.
+	 */
+	public BufferedImage getImg() {
+		return img;
+	}
 }

@@ -24,11 +24,6 @@ public class PlayerMouseListener implements MouseListener {
 	private Player player;
 
 	/**
-	 * The speed which the bullet's speed depends on.
-	 */
-	double speedX = 0;
-
-	/**
 	 * Finds the player on the game map and sets the game map.
 	 * @param gameMap the user is able to spawn/shoot bullets on this game map.
 	 */
@@ -45,13 +40,29 @@ public class PlayerMouseListener implements MouseListener {
 	public void mousePressed(MouseEvent e) {
 		// TODO: make bullet shoot to cursor
 		// Deciding the direction.
-		if (((player.getCollisionRect().getX() + player.getCollisionRect().getWidth() / 2 - gameMap.getGameCanvas().getCamera().getPosition().getX()) * gameMap.getGameCanvas().getCamera().getScale()) < e.getPoint().getX())
-			speedX = 0.4;
-		else
-			speedX = -0.4;
+		// Speed of the bullet.
+		double speedX;
+		double speedY;
+
+		// The cursor position relative to the player's positions
+		double deltaX = ((player.getCollisionRect().getX() + player.getCollisionRect().getWidth() / 2 - gameMap.getGameCanvas().getCamera().getPosition().getX()) * gameMap.getGameCanvas().getCamera().getScale()) * (-1) + e.getPoint().getX();
+		double deltaY = ((player.getCollisionRect().getY() + player.getCollisionRect().getHeight() / 2 - gameMap.getGameCanvas().getCamera().getPosition().getY()) * gameMap.getGameCanvas().getCamera().getScale()) - e.getPoint().getY();
+
+		// The degree of the vector given by deltaX and deltaY
+		double degree;
+		if (deltaX < 0) {
+			degree =  -1 * Math.atan(deltaY / deltaX);
+			speedX = Math.sin(degree - Math.PI / 2) * 0.4;
+			speedY = Math.cos(degree - Math.PI / 2) * 0.4;
+		} else {
+			degree = Math.atan(deltaY / deltaX);
+			speedX = Math.sin(degree - Math.PI / 2) * -0.4;
+			speedY = Math.cos(degree - Math.PI / 2) * 0.4;
+		}
+
 
 		// Initializing the bullet.
-		new PistolBullet(new Point2D.Double(player.getPosition().getX(), player.getPosition().getY()), new Point2D.Double(speedX, 0), this.gameMap);
+		new PistolBullet(new Point2D.Double(player.getPosition().getX(), player.getPosition().getY()), new Point2D.Double(speedX, speedY), this.gameMap);
 	}
 
 	/**
