@@ -39,7 +39,6 @@ public class PlayerMouseListener implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO: make bullet shoot to cursor
-		// Deciding the direction.
 		// Speed of the bullet.
 		double speedX;
 		double speedY;
@@ -48,18 +47,10 @@ public class PlayerMouseListener implements MouseListener {
 		double deltaX = ((player.getCollisionRect().getX() + player.getCollisionRect().getWidth() / 2 - gameMap.getGameCanvas().getCamera().getPosition().getX()) * gameMap.getGameCanvas().getCamera().getScale()) * (-1) + e.getPoint().getX();
 		double deltaY = ((player.getCollisionRect().getY() + player.getCollisionRect().getHeight() / 2 - gameMap.getGameCanvas().getCamera().getPosition().getY()) * gameMap.getGameCanvas().getCamera().getScale()) - e.getPoint().getY();
 
-		// The degree of the vector given by deltaX and deltaY
-		double degree;
-		if (deltaX < 0) {
-			degree =  -1 * Math.atan(deltaY / deltaX);
-			speedX = Math.sin(degree - Math.PI / 2) * 0.4;
-			speedY = Math.cos(degree - Math.PI / 2) * 0.4;
-		} else {
-			degree = Math.atan(deltaY / deltaX);
-			speedX = Math.sin(degree - Math.PI / 2) * -0.4;
-			speedY = Math.cos(degree - Math.PI / 2) * 0.4;
-		}
-
+		// Normalize speed of the bullet using the cursor direction relative to the player
+		double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+		speedX = deltaX / distance * 0.4;
+		speedY = deltaY / distance * 0.4;
 
 		// Initializing the bullet.
 		new PistolBullet(new Point2D.Double(player.getPosition().getX(), player.getPosition().getY()), new Point2D.Double(speedX, speedY), this.gameMap);

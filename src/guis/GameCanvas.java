@@ -46,9 +46,10 @@ public class GameCanvas extends MyCanvas implements Updatable {
 	/**
 	 * Initializes the game map, places Player and starts the timer.
 	 * Also starts rendering the game map, then refreshes every few milliseconds.
-	 * @param width the width of the canvas in pixels.
-	 * @param height the height of the canvas in pixels.
-	 * @param gameMap the game map to update and display.
+	 *
+	 * @param width       the width of the canvas in pixels.
+	 * @param height      the height of the canvas in pixels.
+	 * @param gameMap     the game map to update and display.
 	 * @param parentFrame the frame which this canvas is on.
 	 */
 	public GameCanvas(int width, int height, GameMap gameMap, GameFrame parentFrame) {
@@ -69,7 +70,8 @@ public class GameCanvas extends MyCanvas implements Updatable {
 
 	/**
 	 * Sets the canvas size in pixels.
-	 * @param width the new width in pixels.
+	 *
+	 * @param width  the new width in pixels.
 	 * @param height the new height in pixels.
 	 */
 	@Override
@@ -79,11 +81,11 @@ public class GameCanvas extends MyCanvas implements Updatable {
 		this.setMinimumSize(d);
 		this.setMaximumSize(d);
 		this.setPreferredSize(d);
-		bottom = new BufferedImage(d.width,d.height,BufferedImage.TYPE_INT_RGB);
+		bottom = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_RGB);
 		bottom.getGraphics().setColor(Color.red);
-		bottom.getGraphics().fillRect(0,0,d.width, d.height);
-		image = new BufferedImage(d.width,d.height,BufferedImage.TYPE_INT_RGB);
-		top = new BufferedImage(d.width,d.height,BufferedImage.TYPE_INT_ARGB);
+		bottom.getGraphics().fillRect(0, 0, d.width, d.height);
+		image = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_RGB);
+		top = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
 		// Drawing the new grid out onto the canvas
 	}
 
@@ -91,8 +93,9 @@ public class GameCanvas extends MyCanvas implements Updatable {
 	 * Setting up the actors, placing all Updatables in the GameClock's array to call the tick() method to update them.
 	 */
 	private void setUpUpdatables() {
-		gameClock.addUpdatable(camera);
 		gameClock.addUpdatable(gameMap);
+		gameClock.addUpdatable(camera);
+		// Let the canvas be last to update.
 		gameClock.addUpdatable(myCanvasDraw);
 	}
 

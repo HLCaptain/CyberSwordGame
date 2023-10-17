@@ -113,19 +113,6 @@ public class GameCanvasDraw extends Draw implements Updatable {
 					(int) (gc.getCamera().getScale()),
 					null
 			);
-
-			// TODO: delete test
-			// TEST BEGIN
-			g.setColor(Color.blue);
-			g.drawRect(
-					(int) ((a.getCollisionRect().getX() - gc.getCamera().getPosition().getX()) * gc.getCamera().getScale()),
-					(int) ((a.getCollisionRect().getY() - gc.getCamera().getPosition().getY()) * gc.getCamera().getScale()),
-					(int) (a.getCollisionRect().getWidth() * gc.getCamera().getScale()),
-					(int) (a.getCollisionRect().getHeight() * gc.getCamera().getScale())
-			);
-			// TEST END
-
-
 		}
 		g.setColor(Color.black);
 		g.drawString(gc.gameClock.getFPS() + " FPS", 25, 25);
